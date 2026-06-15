@@ -39,3 +39,19 @@ Se o objetivo é ir de Arad para Bucareste:
 O algoritmo avalia as cidades vizinhas de Arad.
 Calcula para cada uma: (distância percorrida desde Arad) + (distância em linha reta daquela cidade até Bucareste).
 Escolhe a cidade com o menor valor total e repete o processo até chegar a Bucareste.
+
+___
+
+## Explicando o código do algoritmo:
+
+* 1º:
+O grafo do mapa
+A tabela de heurística
+Ambos como dicionários.
+
+---
+2º usar o HEAPQ, através do [import heapq], que é uma biblioteca nativa do Python que implementa uma Fila de Prioridade
+Ele irá garantir que sempre o menor valor seja o primeiro.
+
+---
+3º 
