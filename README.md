@@ -42,16 +42,51 @@ Escolhe a cidade com o menor valor total e repete o processo até chegar a Bucar
 
 ___
 
-## Explicando o código do algoritmo:
+## Explicando o código do algoritmo A*
 
-* 1º:
-O grafo do mapa
-A tabela de heurística
-Ambos como dicionários.
+### 1º: Estrutura de Dados
+
+O grafo do mapa e a tabela de heurística são definidos. Ambos são estruturados como dicionários em Python.
+
+### 2º: Biblioteca Importada
+
+Usamos o `import heapq`, que é uma biblioteca nativa do Python que implementa uma **Fila de Prioridade** (estrutura de dados do tipo *Min-Heap*). Ela garante que o elemento com o menor valor numérico seja sempre o primeiro a ser retirado da lista.
+
+### 3º: Preparação Inicial
+
+A variável `borda` começa como uma lista vazia, que será preenchida conforme o algoritmo for descobrindo novas possibilidades. O `f_inicial` calcula a nota da primeira cidade: o custo real ($g$) é `0` (pois ainda não andamos nenhum quilômetro), somado ao valor de $h$ (heurística da linha reta até o objetivo).
+
+### 4º: Alimentando a Borda
+
+Ao usar `heapq.heappush`, colocamos a cidade inicial na borda garantindo a regra de prioridade. Guardamos dentro dela uma tupla com quatro informações essenciais:
+
+1. A nota atual (`f_inicial`).
+2. O nome da cidade atual (`inicio`).
+3. O histórico do caminho percorrido até aqui (`[inicio]`), que é uma lista.
+4. O valor do custo real acumulado ($g$), que começa em `0`.
+
+### 5º: Diário de Viagem
+
+A variável `explorado` começa como um dicionário vazio. Posteriormente, ela guardará as cidades cuja exploração já foi finalizada, associando-as ao menor custo encontrado para alcançá-las, a fim de evitar loops.
+
+### 6º: O Laço de Busca e o Teste de Parada
+
+O `while borda` mantém o algoritmo rodando enquanto existirem cidades descobertas na mesa que ainda precisam ser analisadas. A primeira ação dentro do laço é retirar da borda a cidade com a menor nota $f$. Em seguida, o `if atual == objetivo` valida se essa cidade retirada é o nosso destino final. Se for, o algoritmo para na hora e devolve o caminho; se não for, ele segue em frente.
+
+### 7º: O Filtro de Segurança
+
+No bloco `if atual in explorado...`, o algoritmo verifica se a cidade atual já foi completamente explorada antes. Se ela já foi visitada por um caminho mais curto (ou de igual valor), ela é ignorada e o algoritmo pula para a próxima. Isso evita loops e impede que o código perca tempo reexplorando rotas piores. Caso seja uma visita inédita ou mais eficiente, ela é registrada no dicionário `explorado`.
+
+### 8º: Olhando os Vizinhos
+
+No laço `for vizinho`, o algoritmo analisa todas as cidades que fazem fronteira direta com a cidade atual através do mapa. A variável `distancia_passo` guarda o custo real da estrada entre a cidade atual e esse vizinho. A partir daí, o código calcula:
+
+* O novo custo real acumulado até o vizinho (`g_vizinho`).
+* A estimativa em linha reta dele até o objetivo (`h_vizinho`).
+* A nota final do vizinho (`f_vizinho = g_vizinho + h_vizinho`).
+
+### 9º: Tomada de Decisão e Inserção
+
+Na tomada de decisão final do laço, o algoritmo observa se esse vizinho ainda não foi explorado de verdade ou se o novo caminho oferece um custo real ($g$) menor do que o registrado anteriormente. Se passar nesse teste, o algoritmo atualiza a lista do caminho, calcula a nova rota e usa o `heapq.heappush` para colocar esse vizinho na mesa (`borda`). O processo se repete de forma cíclica até que o objetivo final seja alcançado.
 
 ---
-2º usar o HEAPQ, através do [import heapq], que é uma biblioteca nativa do Python que implementa uma Fila de Prioridade
-Ele irá garantir que sempre o menor valor seja o primeiro.
-
----
-3º 
